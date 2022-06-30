@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .table {
+            border: 2px;
+            border-collapse: collapse;
+            height: 50%;
+            width: 50%;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .txt:focus {
+            background-color: orange;
+        }
+        div.header {
+            border: solid thin black;
+            padding-top: 10px;
+            padding-bottom: 15px;
+            padding-left: 15px;
+        }
+        body {
+            height: 130vh;
+            font-family: system-ui;
+            background-image: linear-gradient(45deg, rgb(36, 7, 145),transparent);
+           
+        }
+
+        .btnEffect {
+            appearance: none;
+            padding: 1em 3em;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 1em 3em;
+            background-color: transparent;
+            color: hsl(200 100% 65%0);
+            border: 5 px solid currentColor;
+            border-radius: 0.125em;
+            isolation: isolate;
+
+        }
+        td {
+            border-collapse: collapse;
+            padding-left: 10px;
+            width: 25%;
+        }
+        td.facture {
+            border: 2px dashed rgb(44, 50, 133);
+            border-collapse: collapse;
+            height: 50%;
+            width: 50%;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        </style>
+
+        
+   
+    <script type="text/javascript">
+        var d1pastval = new String();
+        var d2pastval = new String();
+        function VerifierEmail(d1, d2) {
+            var d1val = document.getElementById(d1).value;
+            var d2val = document.getElementById(d2).value;
+            if (d1val.length &&
+                d2val.length &&
+                (d1val != d2val) &&
+                ((d1val != d1pastval) || (d2val != d2pastval))) {
+
+                alert("Les deux adresses courreils doivent etre identique !.");
+                d1pastval = d1val;
+                d2pastval = d2val;
+                return false;
+            }
+            return true;
+        }
+        function validerChamps() {
+            var verif = document.forms["formulaire"].value;
+            if (verif == "") {
+                alert("tous les champs doivent etre remplis!");
+                return false;
+            }
+        }
+        const element = document.getElementById("ecran");
+        element.addEventListener("click", ecranChecked());
+
+        function ecranChecked() {
+            if (event.target.checked == true) {
+                alert("Excellent choix!");
+            } else if (event.target.checked == false) {
+                alert("A ce prix la,vous devrienz repensez a votre decision!!");
+            }
+        }
+        function calculerTotalFacture() {
+
+            var input = document.getElementsByName("produit");
+            var input2 = document.getElementsByName("marque");
+            var totalOptions = 0;
+
+            for (var i = 0; i < input.length; i++) {
+                if (input[i].checked) {
+                    total += parseFloat(input[i].value);
+                }
+            }
+
+            for (var i = 0; i < input2.length; i++) {
+                if (input2[i].select === true) {
+                    totalOptions += parseFloat(input2[i].value);
+                }
+            }
+
+            document.querySelector('input[name="total"]').value = total.toFixed(2) = "$";
+        }
+     </script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+     <script>
+  $(function () {
+        $('#fonction').val('dell');
+
+        $('#formulaire').submit(
+            function (event) {
+                event.preventDefault();
+                alert("Merci pour votre commande!");
+
+                document.getElementById('messageFacture').innerHTML = "Voici votre facture : ";
+                $('#facture').show();
+
+                $('#resultatNom').append($('input#nom').val());
+                $('#resultatCodePostal').append($('input#codePostal').val());
+                $('#resultatCourriel').append($('input#email1').val());
+                $('#resultatMarque').append($('select#marque').val());
+                $('#montantOptions').append($('input#total').val());
+
+                // Choix de la machine :
+
+                var resulatPrixMachine;
+                var totalSomme = 0;
+
+                if ($('select#marque').val() === "Dell") {
+                    resulatPrixMachine = 149.99;
+                }
+                else if ($('select#marque').val() === "Acer") {
+                    resulatPrixMachine = 199.99;
+                }
+                else if ($('select#marque').val() === "HP") {
+                    resulatPrixMachine = 249.99;
+                }
+                else if ($('select#marque').val() === "AlienWare") {
+                    resulatPrixMachine = 999.99;
+                }
+                else {
+                    alert("Veuillez communiquez avec nous pour plus d'assistance.");
+                }
+
+                $('#resultatMachine').append(resulatPrixMachine + "$");
+
+                totalSomme = resulatPrixMachine + parseFloat((document.querySelector('input[name="total"]').value));                    
+                     
+                $('#montantFacture').append(totalSomme + "$");
+
+
+                // Choix des options additionnels :
+
+                var resultatOptionNom = [];
+                var resultatOptionPrix = [];
+
+                if (document.getElementById('ecran').checked) {
+                    resultatOptionNom.push("Écran");
+                    resultatOptionPrix.push(300);
+                }
+                if (document.getElementById('garantie').checked) {
+                    resultatOptionNom.push("Garantie 2 ans");
+                    resultatOptionPrix.push(200);
+                }
+                if (document.getElementById('imprimante').checked) {
+                    resultatOptionNom.push("Imprimante");
+                    resultatOptionPrix.push(100);
+                }
+                if (document.getElementById('souris').checked) {
+                    resultatOptionNom.push("Souris sans fil");
+                    resultatOptionPrix.push(40);
+                }
+
+                for (var i = 0; i < resultatOptionNom.length; i++) {
+                    $('#resultatOptions').append(resultatOptionNom[i] + " Prix : " + resultatOptionPrix[i] + "$" + " ; ");
+                }                  
+            }
+        );
+    });
+
+    $(document).ready(function () {
+        $('#facture').hide();
+    });
+    </script>
+</head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body>
+    <h1>Facture achat ordinateur portable</h1>
+    
+    <div id="renseignements" class="header">
+        <table>
+
+            <form  name="formulaire" method="get" id="formulaire" onsubmit="validerChamps()">
+
+                <tr>
+                    <td>
+                        <label for="nom"> Nom complet :</label>
+                    </td>
+                    <td>
+                        <input type="text" id="nom" class="txt">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="codePostal"> Code postal :</label>
+                    </td>
+                    <td><input type="text" id="codePostal" class="txt" ></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="email"> Courriel :</label>
+                    </td>
+                    <td><input type="email" id="email1" class="txt"></td>
+                </tr>
+                <tr>
+                    <td><label for="checkemail"> Confirmation courriel :</label></td>
+                    <td>
+                        <input type="email" id="email2" class="txt" onblur="VerifierEmail('email1','email2')">
+                    </td>
+                </tr>
+        </table>
+        <br>
+
+    </div>
+    <div id="selecteur" class="header">
+
+    <label for="marque">Quelle marque voulez-vous?</label>
+    <select name="marque" id="marque">
+        <option id="dell" value="Dell">Dell 149.99$</option>
+        <option id="acer" value="Acer">Acer 199.99$</option>
+        <option id="hp" value="HP">HP 249.99$</option>
+        <option id="alien" value="AlienWare">AlienWare 999.99$</option>
+    </div>
+    </select>
+    <br>
+    <br>
+    </div>
+    <div id="options">
+        <label for="option">Cochez les options que vous voulez ajouter:</label><br>
+        <input type="checkbox" id="ecran" class="choix" name="produit" onclick="ecranChecked(),calculerTotalFacture();">
+        <label for="ecran">Ecran - 300$</label><br>
+        <input type="checkbox" id="garantie" class="choix" name="produit" onclick="calculerTotalFacture()">
+        <label for="garantie">Garantie de 2 ans - 200$</label><br>
+        <input type="checkbox" id="imprimante" class="choix" name="produit" onclick="calculerTotalFacture()">
+        <label for="imprimante">Imprimante - 100$</label><br>
+        <input type="checkbox" id="souris" class="choix"  name="produit" onclick="calculerTotalFacture()">
+        <label for="souris">Souris sans fil - 40$</label><br>
+    </div>
+    <br>
+    <br>
+    <div class="header">
+    <button id="commander" type="submit"   onclick="validerChamps()" class="btnEffect">Commander</button>
+    <label>ou</label>
+    <button id="recommencer" type="reset" class="btnEffect" onclick="window.location.reload();">Recommencer</button>
+    </div>
+    </form>
+    <br>
+    <h1>Facture</h1>
+    <p id="messageFacture"> En attente de l'envoi du formulaire</p>
+
+    <div id="facture" class="facture">
+        <table>
+
+            <caption>Facture pour l'achat d'un ordinateur portable</caption>
+            <tr>
+                <td colspan="3" class="facture">
+                    <p id="resultatNom">Merci d'avoir fait affaire avec nous : </p>
+                    <p id="resultatCodePostal">Votre facture vous sera envoyé à : </p>
+                    <p id="resultatCourriel">Aussi, un courriel vous sera envoyé à : </p>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="facture">Ordinateur</td>
+                <td class="facture">
+                    <p id="resultatMarque"></p>
+                </td>
+                <td class="facture">
+                    <p id="resultatMachine"></p>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="facture">Options :</td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="facture">
+                    <p id="resultatOptions"></p>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="facture">
+                    <p id="montantOptions"> Montant total des accessoires : </p>
+                </td>
+                <td colspan="3" class="facture">
+                    <input  type="text" name="total" />
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="facture">
+                    <p id="montantFacture">Total : </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
